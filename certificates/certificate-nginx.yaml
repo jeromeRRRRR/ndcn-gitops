@@ -1,0 +1,19 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nginx-target-cert
+  namespace: default
+spec:
+  secretName: nginx-target-tls-secret # Le nom du secret qui sera créé
+  duration: 2160h # 90 jours
+  renewBefore: 360h # Renouveler 15 jours avant l'expiration
+  subject:
+    organizations:
+      - NDCN-LAB
+  commonName: nginx-target.default.svc.cluster.local
+  dnsNames:
+    - nginx-target
+    - nginx-target.default.svc.cluster.local
+  issuerRef:
+    name: ndcn-selfsigned-issuer
+    kind: Issuer
