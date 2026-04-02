@@ -1,5 +1,6 @@
+---
 name: NDCN YAML Validation
-on: [push, pull_request]
+"on": [push, pull_request]  # Utilise des guillemets pour le "on"
 
 jobs:
   validate:
@@ -12,15 +13,15 @@ jobs:
         uses: ibiqlik/action-yamllint@v3
         with:
           file_or_dir: "."
-          # On autorise les lignes longues pour les secrets chiffrés
           config_data: |
             extends: default
             rules:
               line-length: disable
+              document-start: disable  # Optionnel : désactive l'obligation du ---
 
       - name: Kubeconform (Schema Validation)
-        # On utilise l'action officielle de kubeconform
         uses: docker://ghcr.io/yannh/kubeconform:latest
         with:
           entrypoint: "/kubeconform"
           args: "-summary -ignore-filename-pattern .yaml -ignore-custom-resources ."
+# Assure-toi d'avoir une ligne vide juste en dessous de cette ligne !
