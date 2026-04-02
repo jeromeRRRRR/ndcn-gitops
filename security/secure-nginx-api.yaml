@@ -1,3 +1,4 @@
+---
 apiVersion: "cilium.io/v2"
 kind: CiliumNetworkPolicy
 metadata:
@@ -8,19 +9,19 @@ spec:
     matchLabels:
       app: nginx-ndcn
   ingress:
-  - fromEndpoints:
-    - matchLabels:
-        run: net-test-1
-    toPorts:
-    - ports:
-      # Port 80 : On garde l'inspection intelligente (L7)
-      - port: "80"
-        protocol: TCP
-      rules:
-        http:
-        - method: "GET"
-          path: "/"
-    - ports:
-      # Port 443 : On autorise le flux (L4) 
-      - port: "443"
-        protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            run: net-test-1
+      toPorts:
+        - ports:
+            # Port 80 : On garde l'inspection intelligente (L7)
+            - port: "80"
+              protocol: TCP
+          rules:
+            http:
+              - method: "GET"
+                path: "/"
+        - ports:
+            # Port 443 : On autorise le flux (L4)
+            - port: "443"
+              protocol: TCP
