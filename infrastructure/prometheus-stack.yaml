@@ -6,7 +6,7 @@ metadata:
   namespace: argocd
   annotations:
     # Cette ligne est magique : elle force le remplacement en cas de conflit
-    argocd.argoproj.io/sync-options: Replace=true  
+    argocd.argoproj.io/sync-options: Replace=true,ServerSideApply=true  
 spec:
   project: default
   source:
