@@ -6,12 +6,16 @@ name: NDCN YAML Validation
   pull_request:
     branches: [main]
 
+# Optionnel : Force Node 24 pour toutes les actions (recommandé en 2026)
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5 # On passe en v5 pour éviter les warnings Node 20
 
       - name: YAML Lint
         uses: ibiqlik/action-yamllint@v3
@@ -21,10 +25,12 @@ jobs:
             extends: default
             rules:
               line-length: disable
-              document-start: disable  # Optionnel : désactive l'obligation du ---
+              document-start: disable
 
       - name: Kubeconform (Schema Validation)
         uses: docker://ghcr.io/yannh/kubeconform:latest
         with:
           entrypoint: "/kubeconform"
-          args: "-summary -ignore-missing-schemas ."
+          # CORRECTION : On cible spécifiquement tes dossiers d'infrastructure
+          # pour éviter que Kubeconform ne scanne le dossier .github/
+          args: "-summary -ignore-missing-schemas apps/ certificates/ security/ infrastructure/"
