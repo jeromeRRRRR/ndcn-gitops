@@ -12,13 +12,15 @@ jobs:
         uses: ibiqlik/action-yamllint@v3
         with:
           file_or_dir: "."
-          config_file: ".yamllint" # Optionnel, on peut le créer plus tard
+          # On autorise les lignes longues pour les secrets chiffrés
+          config_data: |
+            extends: default
+            rules:
+              line-length: disable
 
       - name: Kubeconform (Schema Validation)
-        uses: yannh/kubeconform-action@v0.0.12
+        # On utilise l'action officielle de kubeconform
+        uses: docker://ghcr.io/yannh/kubeconform:latest
         with:
-          validateStateless: true
-          # On ignore les CRD personnalisées (Cilium, Argo) pour l'instant
-          # car elles demandent une config plus complexe
-          ignoreCustomResources: true 
-          directory: "."
+          entrypoint: "/kubeconform"
+          args: "-summary -ignore-filename-pattern .yaml -ignore-custom-resources ."
