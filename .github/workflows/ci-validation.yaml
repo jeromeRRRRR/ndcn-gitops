@@ -23,9 +23,8 @@ jobs:
               line-length: disable
               document-start: disable  # Optionnel : désactive l'obligation du ---
 
-- name: Kubeconform (Schema Validation)
+      - name: Kubeconform (Schema Validation)
         uses: docker://ghcr.io/yannh/kubeconform:latest
         with:
           entrypoint: "/kubeconform"
-          args: "-summary -ignore-missing-schemas ." # On simplifie et on utilise le bon flag
-# Assure-toi d'avoir une ligne vide juste en dessous de cette ligne !
+          args: "-summary -ignore-missing-schemas ."
