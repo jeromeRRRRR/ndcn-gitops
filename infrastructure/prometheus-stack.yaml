@@ -5,7 +5,7 @@ metadata:
   name: prometheus-stack
   namespace: argocd
   annotations:
-    # On garde les annotations pour doubler la sécurité sur le remplacement
+    # On garde ces options pour garantir la stabilité lors du Sync manuel
     argocd.argoproj.io/sync-options: Replace=true,ServerSideApply=true
 spec:
   project: default
@@ -28,16 +28,22 @@ spec:
                 cpu: "100m"
                 memory: "400Mi"
               limits:
-                memory: "800Mi" # On limite pour éviter que le L470 ne freeze
+                memory: "800Mi"
+        
+        # CORRECTIF NODE-EXPORTER : Augmentation des timeouts pour éviter les restarts
+        prometheus-node-exporter:
+          livenessProbe:
+            initialDelaySeconds: 30
+            timeoutSeconds: 10
+          readinessProbe:
+            initialDelaySeconds: 30
+            timeoutSeconds: 10
   destination:
     server: "https://kubernetes.default.svc"
     namespace: monitoring
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+    # L'auto-sync est retiré pour te laisser le contrôle manuel
     syncOptions:
-      - CreateNamespace=true    # <-- C'est ici que l'option doit être déclarée
-      - Replace=true           # Force le remplacement des objets RBAC conflictuels
-      - ServerSideApply=true   # Gère mieux les gros manifestes (CRDs)
-    
+      - CreateNamespace=true
+      - Replace=true
+      - ServerSideApply=true
