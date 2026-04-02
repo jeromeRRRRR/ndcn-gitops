@@ -1,0 +1,24 @@
+name: NDCN YAML Validation
+on: [push, pull_request]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: YAML Lint
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: "."
+          config_file: ".yamllint" # Optionnel, on peut le créer plus tard
+
+      - name: Kubeconform (Schema Validation)
+        uses: yannh/kubeconform-action@v0.0.12
+        with:
+          validateStateless: true
+          # On ignore les CRD personnalisées (Cilium, Argo) pour l'instant
+          # car elles demandent une config plus complexe
+          ignoreCustomResources: true 
+          directory: "."
