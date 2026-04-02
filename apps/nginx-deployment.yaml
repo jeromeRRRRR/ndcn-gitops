@@ -1,7 +1,8 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-target # Le même nom pour écraser l'ancien proprement
+  name: nginx-target  # Correction : 2 espaces avant le #
   namespace: default
 spec:
   replicas: 1
@@ -14,26 +15,26 @@ spec:
         app: nginx-ndcn
     spec:
       containers:
-      - name: nginx
-        image: nginx:latest
-        ports:
-        - containerPort: 80
-        - containerPort: 443
-        volumeMounts:
-        # 1. On monte la config SSL qu'on a créée dans nginx-conf.yaml
-        - name: config-volume
-          mountPath: /etc/nginx/conf.d
-        # 2. On monte les certificats créés par cert-manager
-        - name: cert-volume
-          mountPath: /etc/nginx/ssl
-          readOnly: true
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+          volumeMounts:
+            # 1. On monte la config SSL qu'on a créée dans nginx-conf.yaml
+            - name: config-volume
+              mountPath: /etc/nginx/conf.d
+            # 2. On monte les certificats créés par cert-manager
+            - name: cert-volume
+              mountPath: /etc/nginx/ssl
+              readOnly: true
       volumes:
-      - name: config-volume
-        configMap:
-          name: nginx-config # Référence au fichier nginx-conf.yaml
-      - name: cert-volume
-        secret:
-          secretName: nginx-target-tls-secret # Référence au Secret de cert-manager
+        - name: config-volume
+          configMap:
+            name: nginx-config  # Référence au fichier nginx-conf.yaml
+        - name: cert-volume
+          secret:
+            secretName: nginx-target-tls-secret  # Référence au Secret cert-manager
 ---
 apiVersion: v1
 kind: Service
