@@ -1,7 +1,12 @@
----
-name: NDCN YAML Validation
-"on": [push, pull_request]  # Utilise des guillemets pour le "on"
 
+name: NDCN YAML Validation
+
+"on":
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    
 jobs:
   validate:
     runs-on: ubuntu-latest
