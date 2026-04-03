@@ -205,4 +205,3 @@ spec:
     namespace: kube-system
   version: v1beta1
   versionPriority: 100
-
