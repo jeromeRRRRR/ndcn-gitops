@@ -19,10 +19,19 @@ spec:
           adminPassword: "admin"
           service:
             type: ClusterIP
+        
         prometheus:
           prometheusSpec:
             storageSpec:
+              # CORRECTIF STORAGE : Ajout du template de volume pour KIND/WSL
+              volumeClaimTemplate:
+                spec:
+                  accessModes: ["ReadWriteOnce"]
+                  resources:
+                    requests:
+                      storage: 2Gi
               disableMountSubPath: true # Crucial pour KIND sur Windows/WSL
+            
             resources:
               requests:
                 cpu: "100m"
