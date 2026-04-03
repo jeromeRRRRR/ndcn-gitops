@@ -17,13 +17,24 @@ spec:
       values: |
         grafana:
           adminPassword: "admin"
+          # CORRECTIF GRAFANA : Sortie du mode BestEffort + Sondes assouplies
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "200Mi"
+            limits:
+              memory: "512Mi"
+          readinessProbe:
+            timeoutSeconds: 3
+          livenessProbe:
+            timeoutSeconds: 3
           service:
             type: ClusterIP
-        
+
         prometheus:
           prometheusSpec:
             storageSpec:
-              # CORRECTIF STORAGE : Ajout du template de volume pour KIND/WSL
+              # CORRECTIF STORAGE : Défini à 2Gi pour valider le PVC
               volumeClaimTemplate:
                 spec:
                   accessModes: ["ReadWriteOnce"]
@@ -39,7 +50,7 @@ spec:
               limits:
                 memory: "800Mi"
         
-        # CORRECTIF NODE-EXPORTER : Augmentation des timeouts pour éviter les restarts
+        # CORRECTIF NODE-EXPORTER : Augmentation des timeouts (Restart Storm)
         prometheus-node-exporter:
           livenessProbe:
             initialDelaySeconds: 30
