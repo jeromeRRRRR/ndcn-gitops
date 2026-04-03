@@ -42,14 +42,12 @@ spec:
                     requests:
                       storage: 2Gi
               disableMountSubPath: true # Crucial pour KIND sur Windows/WSL
-            
             resources:
               requests:
                 cpu: "100m"
                 memory: "400Mi"
               limits:
                 memory: "800Mi"
-        
         # CORRECTIF NODE-EXPORTER : Augmentation des timeouts (Restart Storm)
         prometheus-node-exporter:
           livenessProbe:
