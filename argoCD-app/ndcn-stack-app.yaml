@@ -1,0 +1,28 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ndcn-stack
+  namespace: argocd
+spec:
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    directory:
+      exclude: infrastructure/metrics-server/*
+      recurse: true
+      jsonnet:
+        tlas:
+          - name: ""
+            value: ""
+    path: .
+    repoURL: https://github.com/jeromeRRRRR/ndcn-gitops.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      enabled: true
+      prune: true
+      selfHeal: true
+
