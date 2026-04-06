@@ -7,12 +7,12 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/jeromeRRRRR/ndcn-gitops.git 
+    repoURL: https://github.com/jeromeRRRRR/ndcn-gitops.git
     targetRevision: HEAD
     path: infrastructure/metrics-server
   destination:
     server: https://kubernetes.default.svc
-    namespace: kube-system # On le garde dans kube-system
+    namespace: kube-system  # On le garde dans kube-system
   syncPolicy:
     automated:
       prune: true

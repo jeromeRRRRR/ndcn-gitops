@@ -5,7 +5,6 @@ metadata:
   name: prometheus-stack
   namespace: argocd
   annotations:
-    # On garde ces annotations car elles définissent le comportement de déploiement
     argocd.argoproj.io/sync-options: Replace=true,ServerSideApply=true
 spec:
   destination:
@@ -20,7 +19,6 @@ spec:
       values: |
         grafana:
           adminPassword: "admin"
-          # CORRECTIF GRAFANA : Sortie du mode BestEffort + Sondes assouplies
           resources:
             requests:
               cpu: "100m"
@@ -33,26 +31,22 @@ spec:
             timeoutSeconds: 3
           service:
             type: ClusterIP
-
         prometheus:
           prometheusSpec:
             storageSpec:
-              # CORRECTIF STORAGE : Défini à 2Gi pour valider le PVC
               volumeClaimTemplate:
                 spec:
                   accessModes: ["ReadWriteOnce"]
                   resources:
                     requests:
                       storage: 2Gi
-              disableMountSubPath: true # Crucial pour KIND sur Windows/WSL
+              disableMountSubPath: true
             resources:
               requests:
                 cpu: "100m"
                 memory: "400Mi"
               limits:
                 memory: "800Mi"
-
-        # CORRECTIF NODE-EXPORTER : Augmentation des timeouts (Restart Storm)
         prometheus-node-exporter:
           livenessProbe:
             initialDelaySeconds: 30
@@ -62,7 +56,7 @@ spec:
             timeoutSeconds: 10
   syncPolicy:
     syncOptions:
-    - CreateNamespace=true
-    - Replace=true
-    - ServerSideApply=true
+      - CreateNamespace=true
+      - Replace=true
+      - ServerSideApply=true
 
