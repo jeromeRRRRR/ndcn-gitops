@@ -11,7 +11,7 @@ spec:
   project: default
   source:
     directory:
-      exclude: infrastructure/metrics-server/*
+      exclude: '{infrastructure/metrics-server/*,cluster/*}' 
       recurse: true
       jsonnet:
         tlas:
