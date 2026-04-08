@@ -11,7 +11,7 @@ spec:
   project: default
   source:
     directory:
-      exclude: '{infrastructure/metrics-server/*,cluster/*}' 
+      exclude: '{infrastructure/metrics-server/*,cluster/*,argoCD-app/*}'
       recurse: true
       jsonnet:
         tlas:
