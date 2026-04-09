@@ -12,5 +12,5 @@ spec:
     size: 1Gi
     # On utilise la StorageClass par défaut de KIND qui écrit dans /var/lib/rancher/local-path
     # NOTE : Pour vraiment utiliser /var/data-shared, nous devrons créer un PV local dédié.
-  monitoring:
-    enablePodMonitor: true # Intégration directe avec ta prometheus-stack !
+    #  monitoring:
+    #    enablePodMonitor: true # Intégration directe avec ta prometheus-stack !
