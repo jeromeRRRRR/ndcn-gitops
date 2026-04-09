@@ -12,3 +12,7 @@ nodes:
     extraMounts:
       - hostPath: /mnt/c/Users/jerom/Documents
         containerPath: /var/data-shared
+  - role: worker
+    extraMounts:
+      - hostPath: /mnt/c/Users/jerom/Documents
+        containerPath: /var/data-shared

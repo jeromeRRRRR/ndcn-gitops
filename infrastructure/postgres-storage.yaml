@@ -1,0 +1,75 @@
+---
+# 1. On définit une classe de stockage locale "NDCN"
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ndcn-local-storage
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+---
+# 2. On crée 3 volumes physiques pointant vers des sous-dossiers de ton Windows
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-pg-1
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ndcn-local-storage
+  local:
+    path: /var/data-shared/pg-data-1
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - ndcn-cilium-worker # Cible le premier worker
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-pg-2
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ndcn-local-storage
+  local:
+    path: /var/data-shared/pg-data-2
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - ndcn-cilium-worker2 # Cible le deuxième worker
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-pg-3
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ndcn-local-storage
+  local:
+    path: /var/data-shared/pg-data-3
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - ndcn-cilium-worker3

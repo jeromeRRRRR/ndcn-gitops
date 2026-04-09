@@ -1,0 +1,17 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: ndcn-db-ha
+  namespace: default
+spec:
+  instances: 3
+  imageName: ghcr.io/cloudnative-pg/postgresql:16
+  # Configuration du stockage exploitant ton montage Windows
+  storage:
+    size: 1Gi
+    # On utilise la StorageClass par défaut de KIND qui écrit dans /var/lib/rancher/local-path
+    # NOTE : Pour vraiment utiliser /var/data-shared, nous devrons créer un PV local dédié.
+  monitoring:
+    enablePodMonitor: true # Intégration directe avec ta prometheus-stack !
+
