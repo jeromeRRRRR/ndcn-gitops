@@ -10,6 +10,7 @@ spec:
   # Configuration du stockage exploitant ton montage Windows
   storage:
     size: 1Gi
+    storageClass: ndcn-local-storage  # <--- CETTE LIGNE EST VITALE
     # On utilise la StorageClass par défaut de KIND qui écrit dans /var/lib/rancher/local-path
     # NOTE : Pour vraiment utiliser /var/data-shared, nous devrons créer un PV local dédié.
     #  monitoring:
