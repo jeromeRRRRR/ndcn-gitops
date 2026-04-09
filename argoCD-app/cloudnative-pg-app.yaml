@@ -4,18 +4,23 @@ kind: Application
 metadata:
   name: cloudnative-pg
   namespace: argocd
+  annotations:
+    # On ajoute ces deux options au niveau des annotations pour plus de sécurité
+    argocd.argoproj.io/sync-options: ServerSideApply=true
 spec:
   project: default
   source:
     chart: cloudnative-pg
     repoURL: https://cloudnative-pg.github.io/charts
-    targetRevision: 0.21.0 # À vérifier selon la version actuelle
+    targetRevision: 0.21.0
   destination:
     namespace: cnpg-system
     server: https://kubernetes.default.svc
   syncPolicy:
     automated:
+      enabled: true
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - ServerSideApply=true # C'est LA règle d'or ici
