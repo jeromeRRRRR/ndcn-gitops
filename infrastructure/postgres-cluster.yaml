@@ -14,4 +14,3 @@ spec:
     # NOTE : Pour vraiment utiliser /var/data-shared, nous devrons créer un PV local dédié.
   monitoring:
     enablePodMonitor: true # Intégration directe avec ta prometheus-stack !
-
