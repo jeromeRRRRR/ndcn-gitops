@@ -20,7 +20,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: ndcn-local-storage
   local:
-    path: /var/lib/ndcn-data/pg-data-1 
+    path: /var/lib/ndcn-data/pg-data-1
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -42,7 +42,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: ndcn-local-storage
   local:
-    path: /var/lib/ndcn-data/pg-data-2 
+    path: /var/lib/ndcn-data/pg-data-2
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -64,7 +64,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: ndcn-local-storage
   local:
-    path: /var/lib/ndcn-data/pg-data-3 
+    path: /var/lib/ndcn-data/pg-data-3
   nodeAffinity:
     required:
       nodeSelectorTerms:
